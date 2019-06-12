@@ -1,5 +1,9 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from phonenumber_field import modelfields
+
+# class Client(models.Model, Importable):
+    # phone = PhoneNumberField(null=False, blank=False, unique=True)
 
 class Contact(models.Model):
     """Contact documentation"""
@@ -7,6 +11,7 @@ class Contact(models.Model):
     lastname = models.CharField(max_length=254)
     # address = https://pypi.org/project/django-address/
     email = models.EmailField(max_length=254)
+    phone = modelfields.PhoneNumberField()
     # phone = https://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
 
     def __str__(self):

@@ -10,6 +10,9 @@ Test application for Open Web Technology.
 
 * [Django REST Swagger 2.2](https://django-rest-swagger.readthedocs.io/en/latest/#installation)
 
+* [Django phonenumber field](https://github.com/stefanfoulis/django-phonenumber-field#installation)
+
+
 ## Installing
 
 
