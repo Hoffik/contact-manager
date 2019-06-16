@@ -4,18 +4,17 @@ Test application for Open Web Technology.
 
 ## Prerequisites
 
-* [Django 2.1](https://docs.djangoproject.com/en/2.1/intro/install/) 
+* [Django 2.1](https://docs.djangoproject.com/en/2.1/intro/install/)
 
 * [Django REST framework 3.9](https://www.django-rest-framework.org/#installation)
 
 * [Django REST Swagger 2.2](https://django-rest-swagger.readthedocs.io/en/latest/#installation)
 
-* [Django phonenumber field](https://github.com/stefanfoulis/django-phonenumber-field#installation)
+* [Django address 0.2.1](https://pypi.org/project/django-address/)
 
+* [Django phonenumber field 3.0.1](https://github.com/stefanfoulis/django-phonenumber-field#installation)
 
 ## Installing
-
-
 
 ## Author
 

@@ -6,7 +6,7 @@ class ContactSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Contact
-        fields = ('id', 'firstname', 'lastname', 'fullname', 'email', 'phone',)
+        fields = ('id', 'firstname', 'lastname', 'fullname', 'address', 'email', 'phone',)
 
     def get_fullname(self, obj):
         return obj.firstname + " " + obj.lastname
