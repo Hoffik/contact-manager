@@ -127,4 +127,4 @@ STATIC_URL = '/static/'
 # Google Maps API key
 # https://cloud.google.com/maps-platform/
 
-GOOGLE_API_KEY = 'AIzaSyCHPrvvZ-W7HiHDwKbuoGBpSSgzDXphb20'
+GOOGLE_API_KEY = ''

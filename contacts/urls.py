@@ -6,8 +6,8 @@ from .views import ContactViewSet, SkillViewSet
 app_name = 'contacts'
 
 router = routers.DefaultRouter()
-router.register('contacts', ContactViewSet)
-router.register('skills', SkillViewSet)
+router.register('contacts', ContactViewSet, base_name='contacts')
+router.register('skills', SkillViewSet, base_name='skills')
 
 schema_view = schemas.get_schema_view(title='API schema', renderer_classes=[renderers.OpenAPIRenderer, renderers.SwaggerUIRenderer])
 
