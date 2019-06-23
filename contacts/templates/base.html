@@ -1,0 +1,42 @@
+{% load static %} {% comment %}  use staticfiles to serve files from cloud service {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Contacts</title>
+        <meta charset="utf-8"> 
+        <!-- Bootstrap -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <!-- Angular -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="{% static 'contactsController.js' %}"></script>
+        <!-- Styles -->
+        <link href="{% static 'styles.css' %}" rel="stylesheet" type="text/css">
+        <!-- Favicon -->
+        <link href="{% static 'favicon.ico' %}" rel="shortcut icon" type="image/png">
+        <!-- Google Address API -->
+        {{ form.media }}
+    </head>
+
+    <body ng-app="contactsApp">
+
+        <nav>
+            {% if user.username %}
+                <div>Hi <a href="{% url 'contacts:profile' %}">{{user.username}}</a></div>
+                <div><a href="{% url 'contacts:logout' %}">Logout</a></div>
+            {% else %}
+                <div><a href="{% url 'contacts:login' %}">Login</a></div>
+                <div><a href="{% url 'contacts:signup' %}">Sign up</a></div>
+            {% endif %}
+        </nav>
+
+        {% block content %}
+            <!-- Put content here -->
+            <strong>No external content loaded</strong>
+        {% endblock content %}
+
+    </body>
+</html>

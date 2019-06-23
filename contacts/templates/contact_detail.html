@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main ng-controller="ProjectDetailCtrl" ng-init="getProject('{{ project_dir }}')" ng-cloak>
+
+<div ng-show="error_message">[[ error_message ]]</div>
+<div ng-hide="error_message">
+
+<section id="contact-parameters">
+
+    <h1>[[ contact.fullname ]]</h1>
+
+    <form action="/action_page.php">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" name="remember"> Remember me</label>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+
+</section>
+
+<section id="contact-skills">
+
+    <h2>Skills:</h2>
+
+    <div class="table-responsive">          
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="skill in skills | orderBy:['id']">
+                    <td>[[ skill.firstname ]]</td>
+                    <td>[[ skill.lastname ]]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+</div>
+
+</main>
+
+{% endblock content %}
+

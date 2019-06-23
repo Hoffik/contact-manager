@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container" ng-controller="ContactListCtrl" ng-init="user='{{user}}'" ng-cloak>
+
+    <h1>Contact list</h1>
+
+    <div class="table-responsive">          
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="contact in contacts | orderBy:['id']">
+                    <td>[[ contact.firstname ]]</td>
+                    <td>[[ contact.lastname ]]</td>
+                    <td>[[ contact.address ]]</td>
+                    <td>[[ contact.email ]]</td>
+                    <td>[[ contact.phone ]]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock content %}

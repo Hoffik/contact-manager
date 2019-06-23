@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
     'address',
+    'djng',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,6 +86,13 @@ DATABASES = {
 }
 
 
+# Custom user authentication
+# https://docs.djangoproject.com/en/2.1/topics/auth/customizing/#substituting-a-custom-user-model
+
+AUTH_USER_MODEL = 'contacts.User'
+LOGIN_REDIRECT_URL = 'contacts:contact-list-view'
+
+
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -123,8 +131,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    ('node_modules', os.path.join(BASE_DIR, 'node_modules')),
+]
 
-# Google Maps API key
-# https://cloud.google.com/maps-platform/
 
-GOOGLE_API_KEY = ''
+# Form styles
+FORM_RENDERER = 'djng.forms.renderers.DjangoAngularBootstrap3Templates'
