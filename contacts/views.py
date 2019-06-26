@@ -97,3 +97,12 @@ class SkillViewSet(viewsets.ModelViewSet):
     """
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
+
+    # def perform_create(self, serializer):
+    #     raise Exception(self.args)
+    #     try:
+    #         existing_skill = Skill.objects.get(name="test")
+    #     except Content.DoesNotExist:
+    #         thepost = None
+    #     """Force contact owner to current user on save"""
+    #     # serializer.save(owner=self.request.user)

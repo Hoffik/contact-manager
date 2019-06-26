@@ -2,56 +2,156 @@
 
 {% block content %}
 
-<main ng-controller="ProjectDetailCtrl" ng-init="getProject('{{ project_dir }}')" ng-cloak>
+<main class="container" ng-controller="ContactDetailCtrl" ng-init="getContact('{{ contact_id }}')" ng-cloak>
 
-<div ng-show="error_message">[[ error_message ]]</div>
-<div ng-hide="error_message">
+    <div ng-show="error_message">[[ error_message ]]</div>
+    <div ng-hide="error_message">
 
-<section id="contact-parameters">
+    <section id="contact-parameters">
 
-    <h1>[[ contact.fullname ]]</h1>
+        <h1>[[ contact.fullname ]]</h1>
 
-    <form action="/action_page.php">
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+        <form name="ContactForm">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="text-group">
+                            <label for="firstname">First name:</label>
+                            <span class="error message" ng-show="(ContactForm.firstname.$touched || ContactForm.firstname.$dirty) && ContactForm.firstname.$invalid">
+                                <span ng-show="ContactForm.firstname.$error.required">&#10006; First name is required.</span>
+                                <span ng-show="ContactForm.firstname.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                            </span>
+                            <span class="ok message" ng-show="ContactForm.firstname.$dirty && ContactForm.firstname.$valid">&#10004;</span>
+                        </div>
+                        <input name="firstname" class="form-control" placeholder="required" ng-model="contact.firstname" ng-maxlength="254" required>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="text-group">
+                            <label for="lastname">Last name:</label>
+                            <span class="error message" ng-show="(ContactForm.lastname.$touched || ContactForm.lastname.$dirty) && ContactForm.lastname.$invalid">
+                                <span ng-show="ContactForm.lastname.$error.required">&#10006; Last name is required.</span>
+                                <span ng-show="ContactForm.lastname.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                            </span>
+                            <span class="ok message" ng-show="ContactForm.lastname.$dirty && ContactForm.lastname.$valid">&#10004;</span>
+                        </div>
+                        <input name="lastname" class="form-control" placeholder="required" ng-model="contact.lastname" ng-maxlength="254" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="text-group">
+                    <label for="address">Address:</label>
+                    <span class="error message" ng-show="(ContactForm.address.$touched || ContactForm.address.$dirty) && ContactForm.address.$invalid">
+                        <span ng-show="ContactForm.address.$error.required">&#10006; Address is required.</span>
+                        <span ng-show="ContactForm.address.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                    </span>
+                    <span class="ok message" ng-show="ContactForm.address.$dirty && ContactForm.address.$valid">&#10004;</span>
+                </div>
+                <input name="address" class="form-control" placeholder="required" ng-model="contact.address" ng-maxlength="254" required>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="text-group">
+                            <label for="email">E-mail:</label>
+                            <span class="error message" ng-show="(ContactForm.email.$touched || ContactForm.email.$dirty) && ContactForm.email.$invalid">
+                                <span ng-show="ContactForm.email.$error.required">&#10006; Email is required.</span>
+                                <span ng-show="ContactForm.email.$error.email">&#10006; Invalid email address.</span>
+                            </span>
+                            <span class="ok message" ng-show="ContactForm.email.$dirty && ContactForm.email.$valid">&#10004;</span>
+                        </div>
+                        <input name="email" type="email" class="form-control" placeholder="required" ng-model="contact.email" required>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="text-group">
+                            <label for="phone">Phone number:</label>
+                            <span class="error message" ng-show="(ContactForm.phone.$touched || ContactForm.phone.$dirty) && ContactForm.phone.$invalid">
+                                <span ng-show="ContactForm.phone.$error.required">&#10006; Phone number is required.</span>
+                                <span ng-show="ContactForm.phone.$error.pattern">&#10006; Phone must be in the format: '+99999999'.</span>
+                                <span ng-show="ContactForm.phone.$error.minlength && ContactForm.phone.$touched">&#10006; Minimum 8 digits required.</span>
+                            </span>
+                            <span class="ok message" ng-show="ContactForm.phone.$dirty && ContactForm.phone.$valid">&#10004;</span>
+                        </div>
+                        <input name="phone" class="form-control" placeholder="+99999999 (required)" ng-model="contact.phone" ng-minlength="9" ng-pattern="/^\+\d{0,15}$/" required>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn" ng-disabled="ContactForm.$invalid"  ng-click="updateContact(contact)">Update contact</button>
+        </form>
+
+    </section>
+
+    <section id="contact-skills">
+
+        <h3>Skills:</h3>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="table-responsive">          
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="skill in contact.skills | orderBy:['id']">
+                                <td>[[ skill.name ]]</td>
+                                <td>[[ skill.level ]]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-sm-6" style="padding-top: 8px;">
+                <form name="SkillForm">
+            
+                    <div class="form-group">
+                        <div class="text-group">
+                            <label for="name">Name:</label>
+                            <span class="error message" ng-show="(SkillForm.name.$touched || SkillForm.name.$dirty) && SkillForm.name.$invalid">
+                                <span ng-show="SkillForm.name.$error.required">&#10006; Skill name is required.</span>
+                                <span ng-show="SkillForm.name.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                            </span>
+                            <span class="ok message" ng-show="SkillForm.name.$dirty && SkillForm.name.$valid">&#10004;</span>
+                        </div>
+                        <input name="name" class="form-control" placeholder="required" ng-model="new_skill.name" ng-maxlength="254" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <div class="text-group">
+                            <label for="level">Level:</label>
+                            <span class="error message" ng-show="(SkillForm.level.$touched || SkillForm.level.$dirty) && SkillForm.level.$invalid">
+                                <span ng-show="SkillForm.level.$error.required">&#10006; Level is required.</span>
+                                <span ng-show="SkillForm.level.$error.min">&#10006; Minimum level is 1.</span>
+                                <span ng-show="SkillForm.level.$error.max">&#10006; Maximum level is 3.</span>
+                            </span>
+                            <span class="ok message" ng-show="SkillForm.level.$dirty && SkillForm.level.$valid">&#10004;</span>
+                        </div>
+                        <input name="level" type="number" class="form-control" placeholder="1-3 (required)" ng-model="new_skill.level" ng-min="1" ng-max="3" required>
+                    </div>
+
+                    <button class="btn" ng-disabled="SkillForm.$invalid" ng-click="addSkill(new_skill, contact)">Add new skill</button>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="pwd">Password:</label>
-          <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
-        </div>
-        <div class="checkbox">
-          <label><input type="checkbox" name="remember"> Remember me</label>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
 
-</section>
 
-<section id="contact-skills">
 
-    <h2>Skills:</h2>
 
-    <div class="table-responsive">          
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Level</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="skill in skills | orderBy:['id']">
-                    <td>[[ skill.firstname ]]</td>
-                    <td>[[ skill.lastname ]]</td>
-                </tr>
-            </tbody>
-        </table>
+
+    </section>
+
     </div>
-
-</section>
-
-</div>
 
 </main>
 

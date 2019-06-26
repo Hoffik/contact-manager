@@ -1,21 +1,7 @@
 $medium-window-size: 800px;
 $small-window-size: 500px;
 
-ul.djng-field-errors {
-    margin-left: 0;
-    display: inline-block;
-    list-style-type: none;
-}
-ul.djng-field-errors li.invalid {
-    color: #e9322d;
-}
-ul.djng-field-errors li.invalid:before {
-    content: "\2716\20";  /* adds a red cross before the error message */
-}
-ul.djng-field-errors li.valid:before {
-    color: #00c900;
-    content: "\2714";  /* adds a green tick */
-}
+
 
 // All
 // main {
@@ -63,4 +49,42 @@ input {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+input.ng-touched.ng-invalid {
+    border: 1px solid red;
+}
+div.text-group {
+    display: table;
+
+    label {
+        display: table-cell;
+        white-space: nowrap;
+    }
+    span.message {
+        display: table-cell;
+        width: 100%;
+        text-align: right;
+    }
+    span.error {
+        color:red;
+    }
+    span.ok {
+        color: #00c900;
+    }
+}
+
+ul.djng-field-errors {
+    margin-left: 0;
+    display: inline-block;
+    list-style-type: none;
+}
+ul.djng-field-errors li.invalid {
+    color: #e9322d;
+}
+ul.djng-field-errors li.invalid:before {
+    content: "\2716\20";  /* adds a red cross before the error message */
+}
+ul.djng-field-errors li.valid:before {
+    color: #00c900;
+    content: "\2714";  /* adds a green tick */
 }

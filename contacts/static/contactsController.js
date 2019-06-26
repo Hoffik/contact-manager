@@ -55,6 +55,87 @@ app.controller('ContactAddCtrl', function($scope, $filter, $log, $http) {
     };
 });
 
+app.controller('ContactDetailCtrl', function($scope, $filter, $log, $http){ 
+    $scope.getContact = function(contact_id) {
+        $http.get('/api/contacts/' + contact_id + '/').then(function(response) {
+            $scope.contact = response.data;
+        }).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        });
+    };
+
+    $scope.updateContact = function(contact) {
+        var data = $.param({
+            firstname: contact.firstname,
+            lastname: contact.lastname,
+            address: contact.address,
+            email: contact.email,
+            phone: contact.phone,
+        });
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;'
+            }
+        }
+        return $http.put('/api/contacts/' + contact.id + '/', data, config).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function() {
+            $scope.getContact($scope.contact.id);
+            $scope.ContactForm.$setPristine();
+        });
+    };
+
+    $scope.addSkill = function(skill) {
+        console.log("id: " + $scope.contact.id);
+        var data = $.param({
+            name: skill.name,
+            level: skill.level,
+            contacts: [ $scope.contact.id ],
+        });
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;'
+            }
+        }
+        return $http.post('/api/skills/', data, config).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function() {
+            console.log($scope.new_skill);
+            // $scope.updateSkill($scope.new_skill);
+        }).then(function(skill) {
+            $scope.new_skill = undefined;
+            $scope.getContact($scope.contact.id);
+            $scope.SkillForm.$setPristine();
+        });
+    };
+
+    $scope.updateSkill = function(skill) {
+        console.log(skill);
+        // var data = $.param({
+        //     firstname: contact.firstname,
+        //     lastname: contact.lastname,
+        //     address: contact.address,
+        //     email: contact.email,
+        //     phone: contact.phone,
+        // });
+        // var config = {
+        //     headers : {
+        //         'Content-Type': 'application/x-www-form-urlencoded;'
+        //     }
+        // }
+        // return $http.put('/api/contacts/' + contact.id + '/', data, config).catch(function(error) {
+        //     console.log(error.data.detail, error);
+        //     $scope.error_message = error.data.detail;
+        // }).then(function() {
+        //     $scope.getContact($scope.contact.id);
+        //     $scope.ContactForm.$setPristine();
+        // });
+    };
+});
+
 // Global scope variables
 app.run(function($rootScope) {
     $rootScope.icon_add_user = "data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAARZSURBVGhD7ZlZqFZVFMdvVpalGNlEhZkWNhA0EiFFYUT0EKQ5RKQgJT00QBFEJRFRBFI0UJYZhaL0UgSBikQTPRSFWRENVNAgNNhENNhkvx/cBYuPc+53zvnynO/h/uH3su/e+6x9915rr7W/kXGNa/g0GS6FJ+AV+ADegufhVjgRhlqT4Bb4EXb14UU4HYZOs+B9KDK6jH/gZtgDhkInwfeQjfwOVsNSuBAuAY1+DXI/eQQ618HwCYRRf8NdoJ+U6Wzo3b3roVPp0GHMTrgYqmgKvAQx9g+YCZ3oBHAHwpjroI4OgM8gxq+HTrQSwoitMAHqaj7EHO7oVGhdH0MYcaUNDWTE2g4xz2XQqvaF+LgcCU2V/exuG9qUjhkf/wuaHKvQ7RBzPWVDmzoe4uOe7UF0G8RcT9vQpg6C+LgcBk31KMQ8D9rQtrKTXm5DQ+UL9Sob2lZ2UrPcJjofYo5/YZCg0VhnQRghC6GO9oN3IMZvhs60CcKQX+FMqKK9QceOsWbCVcfuFh0NP0EY9Dssh72gTMfAyxBj5D7oXHPBBWTDPoQVcB4cB6eBt7a7YLjOfd3VsoWbXB4B7mAr0uBvIRtYhXUwEUIa7b1iZvwbRD8DwdfwLCyB3ZaTGX3ehmxkP8wITEkOBOuaJ+FPKOrbyw9wI5gq/S/yItwIRR+rys/QW2FWxag3AwbSudB7nIw+r4Nl7Rw4CvYBK0br+gWwBvyP5nEZ/cvXFh8nDgWPnkdOX3wALKNz/29AH2ykiyCfYdFpT4Yq2h9y+BWj3zIYK+IpCzJrIf0mxn4JLraWzoAcebw/6l6GHskdEHNYKVpx1pFFmSVyzPEqVH6RmQZfQAz2aJ0KdaVjxxzuRNGj3Wz4dJRtNhToCoh5xKNbSY9DDHJXTFPqajoYsWIej1ORfGaKPi62TBsg+ulffeV/XmeOQVdDE+nIMYfPqXtCkaouxOwi/2P6npC1EJ3fg6ZVYU5PvP3LVHUhyifY6HuHDWXyJs1Rqur7VZEMDjFPfv/VcMNosAii3y+jbRl3InQTRN9nbCjTPIiOPlI3zX28T2IeOQRCn0P+Wz/yO5hRM9rfsKFM90LRBHV1OMQ8kvOsQRZyAUT7RzaUaQtExxtsaCh3Ml9kuSJ8F7zxA1OX6OeY/DfxkTyUw/CY1ao/1ETHxTYMILPYmMu0o0x1nP1OiL5jvsToTPeMcqwNA8hUPD5q7lSmOgtxN6PvtTa0IX8ziY+appTVFlUXcg5EP4+gF24r0vCctpsAFqnKQrxM34Topy+3Koui+Lj/RcN7r8xmHxvlfhsK9BDkebxfWpWVXT7X1vxGnqoy1c+LkIehE1l09RZmJoD5xi6SBZ2XXh5nyM13Uus6Bb6CbJQJoLmTkdI0xcvO3fK3ybyLgXWI5UXn8rbXmF4D+6FPrIJOd6JXVnYWRaYXRUZnXMAL4G4Otawn/PHnOfAhw8W5Y/rPNdDaPTGucZVqZOQ/FRoQ53gVmukAAAAASUVORK5CYII=";

@@ -15,7 +15,7 @@ class Contact(models.Model):
     lastname = models.CharField(max_length=254)
     # address = AddressField(on_delete=models.CASCADE, null=True, blank=True) #https://pypi.org/project/django-address/
     address = models.CharField(max_length=254)
-    email = models.EmailField(max_length=254)
+    email = models.EmailField()
     # phone = PhoneNumberField()  #https://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
     
     phone_regex = RegexValidator(regex=r'^\+\d{8,15}$', message="Phone number must be entered in the format: '+99999999'. Up to 15 digits allowed.")
