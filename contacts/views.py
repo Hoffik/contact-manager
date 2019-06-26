@@ -94,6 +94,10 @@ class SkillViewSet(viewsets.ModelViewSet):
 
     update:
         Update a skill.
+        Each contact from the provided list of contacts has the skill (name and/or level) updated (new skill is created if necessary).
+        In case basic parameters name and level are not provided each contact from the list has the skill removed.
+        In case no contact is provided nothing happens.
+        Original skill is removed if it has no contact left.
     """
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
