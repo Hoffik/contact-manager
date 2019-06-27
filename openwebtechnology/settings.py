@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '@o*8ti)9uk@^i&1etw=(jeahfawz)(
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [serene-reef-99653.herokuapp.com]
 
 
 # Application definition
@@ -36,8 +36,6 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
-    # 'address',
-    # 'djng',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
