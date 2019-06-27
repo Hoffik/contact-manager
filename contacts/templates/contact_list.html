@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<main class="container" ng-controller="ContactListCtrl" ng-init="user='{{user}}'" ng-cloak>
+<main class="container" ng-controller="ContactListCtrl" ng-cloak>
 
     <h1>Contact list</h1>
 
@@ -15,20 +15,64 @@
                     <th>Address</th>
                     <th>Email</th>
                     <th>Phone</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <form name="ContactForm2">
+                        <td>
+                            <div class="tooltip">
+                                <input name="firstname" class="form-control" placeholder="required" ng-model="contact.firstname" ng-maxlength="254" required>
+                                <span class="tooltiptext">Tooltip text</span>
+                            </div>
+                            
+                            
+                        </td>
+                        <td>
+                            <input name="lastname" class="form-control" placeholder="required" ng-model="contact.lastname" ng-maxlength="254" required>
+                        </td>
+                        <td>
+                            <input name="address" id="address" class="form-control" placeholder="required" ng-model="contact.address" ng-maxlength="254" required>
+                        </td>
+                        <td>
+                            <input name="email" type="email" class="form-control" placeholder="required" ng-model="contact.email" required>
+                        </td>
+                        <td>
+                            <input name="phone" class="form-control" placeholder="+99999999 (required)" ng-model="contact.phone" ng-minlength="9" ng-pattern="/^\+\d{0,15}$/" required>
+                        </td>
+                        <td></td>
+                        <td class="icon">
+                            <img class="small" data-ng-src="[[ icon_trash ]]" title="Remove user from project" alt="Remove" width="32px" height="32px">
+                        </td>
+                    </form>
+                </tr> 
                 <tr ng-repeat="contact in contacts | orderBy:['id']">
                     <td>[[ contact.firstname ]]</td>
                     <td>[[ contact.lastname ]]</td>
                     <td>[[ contact.address ]]</td>
                     <td>[[ contact.email ]]</td>
                     <td>[[ contact.phone ]]</td>
+                    <td><button ng-click="editContact()">Edit</button></td>
+                    <td><button ng-click="deleteContact()">Remove</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
 </main>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjSAKT0ntw1O1tsMYO6Bh9Ek0Ux3uxut4&amp;libraries=places"></script>   
+<script>
+    google.maps.event.addDomListener(window, 'load', initialize);
+    function initialize() {
+        var input = document.getElementById('address');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+        });
+    }
+</script>
 
 {% endblock content %}

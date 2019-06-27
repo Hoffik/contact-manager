@@ -11,7 +11,7 @@ app_name = 'contacts'
 # Apps views
 apps_urls = [
     path('contacts/', ContactListView.as_view(), name='contact-list-view'),
-    path('contacts/add/', ContactFormView.as_view(), name='contact-add-view'),
+    # path('contacts/add/', ContactFormView.as_view(), name='contact-add-view'),
     path('contacts/<int:contact_id>/', ContactDetailView.as_view(), name='contact-detail-view'),
 ]
 
