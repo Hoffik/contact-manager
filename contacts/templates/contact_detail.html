@@ -151,17 +151,5 @@
 
 </main>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=GOOGLEAPIHERE&amp;libraries=places"></script>   
-<script>
-    google.maps.event.addDomListener(window, 'load', initialize);
-        function initialize() {
-            var input = document.getElementById('address');
-            var autocomplete = new google.maps.places.Autocomplete(input);
-            autocomplete.addListener('place_changed', function () {
-            var place = autocomplete.getPlace();
-        });
-    }
-</script>
-
 {% endblock content %}
 

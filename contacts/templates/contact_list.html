@@ -63,16 +63,4 @@
 
 </main>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjSAKT0ntw1O1tsMYO6Bh9Ek0Ux3uxut4&amp;libraries=places"></script>   
-<script>
-    google.maps.event.addDomListener(window, 'load', initialize);
-    function initialize() {
-        var input = document.getElementById('address');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.addListener('place_changed', function () {
-            var place = autocomplete.getPlace();
-        });
-    }
-</script>
-
 {% endblock content %}
