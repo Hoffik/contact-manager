@@ -20,10 +20,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@o*8ti)9uk@^i&1etw=(jeahfawz)(hvn)%%86^t)ow2p5&q^4'
+# SECRET_KEY = '@o*8ti)9uk@^i&1etw=(jeahfawz)(hvn)%%86^t)ow2p5&q^4'
+import os
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '@o*8ti)9uk@^i&1etw=(jeahfawz)(hvn)%%86^t)ow2p5&q^4')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = []
 
@@ -33,8 +36,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_swagger',
-    'address',
-    'djng',
+    # 'address',
+    # 'djng',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -129,12 +133,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    ('node_modules', os.path.join(BASE_DIR, 'node_modules')),
-]
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# STATICFILES_DIRS = [
+#     ('node_modules', os.path.join(BASE_DIR, 'node_modules')),
+# ]
 
 
-# Form styles
-FORM_RENDERER = 'djng.forms.renderers.DjangoAngularBootstrap3Templates'
+# Heroku: Update database configuration from $DATABASE_URL.
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)

@@ -6,18 +6,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Contact, Skill
 from .serializers import ContactSerializer, SkillSerializer
-from .forms import SignUpForm, ContactForm
+from .forms import SignUpForm
 
 # Application views
 import json
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import FormView
-
-class ContactFormView(FormView):
-    template_name = 'contact_add.html'
-    form_class = ContactForm
-    success_url = reverse_lazy('contacts:contact-list-view')
 
 class ContactListView(LoginRequiredMixin, TemplateView):
     template_name = "contact_list.html"

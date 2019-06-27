@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from rest_framework import routers, schemas
 from rest_framework_swagger import renderers
 from .views import ContactViewSet, SkillViewSet
-from .views import ContactListView, ContactDetailView, ContactFormView
+from .views import ContactListView, ContactDetailView
 from . import views
 
 app_name = 'contacts'
@@ -11,7 +11,6 @@ app_name = 'contacts'
 # Apps views
 apps_urls = [
     path('contacts/', ContactListView.as_view(), name='contact-list-view'),
-    # path('contacts/add/', ContactFormView.as_view(), name='contact-add-view'),
     path('contacts/<int:contact_id>/', ContactDetailView.as_view(), name='contact-detail-view'),
 ]
 
