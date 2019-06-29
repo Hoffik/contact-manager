@@ -1,5 +1,5 @@
-$medium-window-size: 800px;
-$small-window-size: 500px;
+// $medium-window-size: 800px;
+// $small-window-size: 500px;
 
 
 
@@ -73,38 +73,101 @@ div.text-group {
     }
 }
 
-// .tooltip {
-//     .tooltiptext {
-//         visibility: hidden;
-//         width: 120px;
-//         background-color: black;
-//         color: #fff;
-//         text-align: center;
-//         border-radius: 6px;
-//         padding: 5px 0;
-//         position: absolute;
-//         z-index: 1;
-//         top: 150%;
-//         left: 50%;
-//         margin-left: -60px;
-//     }
-// } 
+
+// Table
+span.table {
+    width: 100%;
+    max-width: 100%;
+    padding-bottom: 40px;
+    border-collapse: collapse;
+    border-spacing: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: table;
+    border-color: grey;
+
+    span.table-header-group {
+        width: 100%;
+        display: table-header-group;
+
+        span.table-cell {
+            border-top: 0;
+            border-bottom: 2px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            font-weight: bold;
+            display: table-cell;
+        }
+    }
+
+    span.table-row-group {
+        display: table-row-group;
+
+        span.table-row:hover {
+            background-color: whitesmoke;
+        }
+
+        span.table-cell {
+            border-top: 1px solid #ddd;            
+            padding: 8px;
+            display: table-cell;
+        }
+
+        span.icon {
+            width: 1%;
+        }
+    }
+
+    span.table-row {
+        display: table-row;
+    }
+}
+
+
+// Table form
+.input-cell {
+    position: relative;
+
+    input.ng-dirty.ng-valid {
+        border: 1px solid #00c900;
+    }
+}
   
-// .tooltip {
-//     .tooltiptext::after {
-//         content: "";
-//         position: absolute;
-//         bottom: 100%;
-//         left: 50%;
-//         margin-left: -5px;
-//         border-width: 5px;
-//         border-style: solid;
-//         border-color: transparent transparent black transparent;
-//     }
-// } 
-  
-// .tooltip:hover {
-//     .tooltiptext {
-//         visibility: visible;
-//     }
-// } 
+.input-cell .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: WhiteSmoke;
+    color: red;
+    text-align: center;
+    padding: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%; 
+    margin-left: -60px; /* Half of the width, to center the tooltip */
+}
+
+.input-cell .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ccc transparent;
+}
+
+.input-cell:hover .tooltiptext {
+    visibility: visible;
+}
+
+button.icon {
+    background-color: transparent;
+    border: 0px;
+    padding: 0px;
+}

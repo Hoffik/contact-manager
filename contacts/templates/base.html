@@ -18,7 +18,7 @@
         <!-- Favicon -->
         <link href="{% static 'favicon.ico' %}" rel="shortcut icon" type="image/png">
         <!-- Google Address API -->
-        {{ form.media }}
+        <!-- {{ form.media }} -->
     </head>
 
     <body ng-app="contactsApp">
@@ -38,7 +38,7 @@
             <strong>No external content loaded</strong>
         {% endblock content %}
 
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDddJ0ySzffIxnaMzeJt5wLx_4KjcABUfw&amp;libraries=places"></script>   
+        <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDddJ0ySzffIxnaMzeJt5wLx_4KjcABUfw&amp;libraries=places"></script>   
         <script>
             google.maps.event.addDomListener(window, 'load', initialize);
             function initialize() {
@@ -48,7 +48,7 @@
                     var place = autocomplete.getPlace();
                 });
             }
-        </script>
+        </script> -->
 
     </body>
 </html>

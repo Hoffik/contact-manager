@@ -6,60 +6,92 @@
 
     <h1>Contact list</h1>
 
-    <div class="table-responsive">          
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Address</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <form name="ContactForm2">
-                        <td>
-                            <div class="tooltip">
-                                <input name="firstname" class="form-control" placeholder="required" ng-model="contact.firstname" ng-maxlength="254" required>
-                                <span class="tooltiptext">Tooltip text</span>
+    <form name="ContactForm" novalidate>
+        <div class="table-responsive">          
+            <span class="table">
+                <span class="table-header-group">
+                    <span class="table-row">
+                        <span class="table-cell">Firstname</span>
+                        <span class="table-cell">Lastname</span>
+                        <span class="table-cell">Address</span>
+                        <span class="table-cell">Email</span>
+                        <span class="table-cell">Phone</span>
+                        <span class="table-cell"></span>
+                        <span class="table-cell"></span>
+                    </span>
+                </span>
+                <span class="table-row-group">
+                    <span class="table-row">
+                        <span class="table-cell input-cell">
+                            <div class="text-group">
+                                <span class="error message" ng-show="(ContactForm.firstname.$touched || ContactForm.firstname.$dirty) && ContactForm.firstname.$invalid">
+                                    <span class="tooltiptext" ng-show="ContactForm.firstname.$error.required">&#10006; First name is required.</span>
+                                    <span class="tooltiptext" ng-show="ContactForm.firstname.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                                </span>
                             </div>
-                            
-                            
-                        </td>
-                        <td>
+                            <input name="firstname" class="form-control" placeholder="required" ng-model="contact.firstname" ng-maxlength="254" required>
+                        </span>
+                        <span class="table-cell">
+                            <div class="text-group">
+                                <span class="error message" ng-show="(ContactForm.lastname.$touched || ContactForm.lastname.$dirty) && ContactForm.lastname.$invalid">
+                                    <span class="tooltiptext" ng-show="ContactForm.lastname.$error.required">&#10006; Last name is required.</span>
+                                    <span class="tooltiptext" ng-show="ContactForm.lastname.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                                </span>
+                            </div>
                             <input name="lastname" class="form-control" placeholder="required" ng-model="contact.lastname" ng-maxlength="254" required>
-                        </td>
-                        <td>
+                        </span>
+                        <span class="table-cell">
+                            <div class="text-group">
+                                <span class="error message" ng-show="(ContactForm.address.$touched || ContactForm.address.$dirty) && ContactForm.address.$invalid">
+                                    <span class="tooltiptext" ng-show="ContactForm.address.$error.required">&#10006; Address is required.</span>
+                                    <span class="tooltiptext" ng-show="ContactForm.address.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                                </span>
+                            </div>
                             <input name="address" id="address" class="form-control" placeholder="required" ng-model="contact.address" ng-maxlength="254" required>
-                        </td>
-                        <td>
+                        </span>
+                        <span class="table-cell">
+                            <div class="text-group">
+                                <span class="error message" ng-show="(ContactForm.email.$touched || ContactForm.email.$dirty) && ContactForm.email.$invalid">
+                                    <span class="tooltiptext" ng-show="ContactForm.email.$error.required">&#10006; Email is required.</span>
+                                    <span class="tooltiptext" ng-show="ContactForm.email.$error.email">&#10006; Invalid email address.</span>
+                                </span>
+                            </div>
                             <input name="email" type="email" class="form-control" placeholder="required" ng-model="contact.email" required>
-                        </td>
-                        <td>
+                        </span>
+                        <span class="table-cell">
+                            <div class="text-group">
+                                <span class="error message" ng-show="(ContactForm.phone.$touched || ContactForm.phone.$dirty) && ContactForm.phone.$invalid">
+                                    <span class="tooltiptext" ng-show="ContactForm.phone.$error.required">&#10006; Phone number is required.</span>
+                                    <span class="tooltiptext" ng-show="ContactForm.phone.$error.pattern">&#10006; Phone must be in the format: '+99999999'.</span>
+                                    <span class="tooltiptext" ng-show="ContactForm.phone.$error.minlength && ContactForm.phone.$touched">&#10006; Minimum 8 digits required.</span>
+                                </span>
+                            </div>
                             <input name="phone" class="form-control" placeholder="+99999999 (required)" ng-model="contact.phone" ng-minlength="9" ng-pattern="/^\+\d{0,15}$/" required>
-                        </td>
-                        <td></td>
-                        <td class="icon">
-                            <img class="small" data-ng-src="[[ icon_trash ]]" title="Remove user from project" alt="Remove" width="32px" height="32px">
-                        </td>
-                    </form>
-                </tr> 
-                <tr ng-repeat="contact in contacts | orderBy:['id']">
-                    <td>[[ contact.firstname ]]</td>
-                    <td>[[ contact.lastname ]]</td>
-                    <td>[[ contact.address ]]</td>
-                    <td>[[ contact.email ]]</td>
-                    <td>[[ contact.phone ]]</td>
-                    <td><button ng-click="editContact()">Edit</button></td>
-                    <td><button ng-click="deleteContact()">Remove</button></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                        </span>
+                        <span class="table-cell icon"></span>
+                        <span class="table-cell icon">
+                            <button class="btn icon" ng-disabled="ContactForm.$invalid" ng-click="createContact(contact)">
+                                <img data-ng-src="[[ icon_add_user ]]" title="Create new contact" alt="Create contact" width="32px" height="32px">
+                            </button>
+                        </span>
+                    </span> 
+                    <span class="table-row" ng-repeat="contact in contacts | orderBy:['id']">
+                        <span class="table-cell">[[ contact.firstname ]]</span>
+                        <span class="table-cell">[[ contact.lastname ]]</span>
+                        <span class="table-cell">[[ contact.address ]]</span>
+                        <span class="table-cell">[[ contact.email ]]</span>
+                        <span class="table-cell">[[ contact.phone ]]</span>
+                        <span class="table-cell icon">
+                            <img data-ng-src="[[ icon_edit ]]" ng-click="editContact()" title="Edit contact" alt="Edit contact" width="32px" height="32px">
+                        </span>
+                        <span class="table-cell icon">
+                            <img data-ng-src="[[ icon_trash ]]" ng-click="deleteContact()" title="Delete contact" alt="Delete contact" width="32px" height="32px">
+                        </span>
+                    </span>
+                </span>
+            </span>
+        </div>
+    </form>
 
 </main>
 

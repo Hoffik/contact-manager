@@ -48,7 +48,7 @@ class SkillSerializer(serializers.ModelSerializer):
 
 class ContactSerializer(serializers.ModelSerializer):
     fullname = serializers.SerializerMethodField()
-    # skills = SkillSerializer(many=True)
+    skills = SkillSerializer(many=True, read_only=True)
 
     class Meta:
         model = Contact

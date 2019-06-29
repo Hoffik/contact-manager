@@ -16,7 +16,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <div class="text-group">
-                            <label for="firstname">First name:</label>
+                            <label for="firstname">Firstname:</label>
                             <span class="error message" ng-show="(ContactForm.firstname.$touched || ContactForm.firstname.$dirty) && ContactForm.firstname.$invalid">
                                 <span ng-show="ContactForm.firstname.$error.required">&#10006; First name is required.</span>
                                 <span ng-show="ContactForm.firstname.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
@@ -29,7 +29,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <div class="text-group">
-                            <label for="lastname">Last name:</label>
+                            <label for="lastname">Lastname:</label>
                             <span class="error message" ng-show="(ContactForm.lastname.$touched || ContactForm.lastname.$dirty) && ContactForm.lastname.$invalid">
                                 <span ng-show="ContactForm.lastname.$error.required">&#10006; Last name is required.</span>
                                 <span ng-show="ContactForm.lastname.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
@@ -73,7 +73,7 @@
                             <label for="phone">Phone number:</label>
                             <span class="error message" ng-show="(ContactForm.phone.$touched || ContactForm.phone.$dirty) && ContactForm.phone.$invalid">
                                 <span ng-show="ContactForm.phone.$error.required">&#10006; Phone number is required.</span>
-                                <span ng-show="ContactForm.phone.$error.pattern">&#10006; Phone must be in the format: '+99999999'.</span>
+                                <span ng-show="ContactForm.phone.$error.pattern">&#10006; Phone must be in the format: '+99999999'.<br></span>
                                 <span ng-show="ContactForm.phone.$error.minlength && ContactForm.phone.$touched">&#10006; Minimum 8 digits required.</span>
                             </span>
                             <span class="ok message" ng-show="ContactForm.phone.$dirty && ContactForm.phone.$valid">&#10004;</span>
@@ -83,7 +83,7 @@
                 </div>
             </div>
 
-            <button class="btn" ng-disabled="ContactForm.$invalid"  ng-click="updateContact(contact)">Update contact</button>
+            <button class="btn" ng-disabled="ContactForm.$invalid || !ContactForm.$dirty"  ng-click="updateContact(contact)">Update contact</button>
         </form>
 
     </section>
@@ -92,58 +92,72 @@
 
         <h3>Skills:</h3>
 
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="table-responsive">          
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Level</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="skill in contact.skills | orderBy:['id']">
-                                <td>[[ skill.name ]]</td>
-                                <td>[[ skill.level ]]</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="col-sm-6" style="padding-top: 8px;">
-                <form name="SkillForm">
-            
-                    <div class="form-group">
-                        <div class="text-group">
-                            <label for="name">Name:</label>
-                            <span class="error message" ng-show="(SkillForm.name.$touched || SkillForm.name.$dirty) && SkillForm.name.$invalid">
-                                <span ng-show="SkillForm.name.$error.required">&#10006; Skill name is required.</span>
-                                <span ng-show="SkillForm.name.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+        <form name="SkillForm" novalidate>
+            <div class="table-responsive">          
+                <span class="table">
+                    <span class="table-header-group">
+                        <span class="table-row">
+                            <span class="table-cell">Name</span>
+                            <span class="table-cell">Level</span>
+                            <span class="table-cell"></span>
+                            <span class="table-cell"></span>
+                        </span>
+                    </span>
+                    <span class="table-row-group">
+                        <span class="table-row">
+                            <span class="table-cell input-cell">
+                                <span class="error message" ng-show="(SkillForm.name.$touched || SkillForm.name.$dirty) && SkillForm.name.$invalid">
+                                    <span class="tooltiptext" ng-show="SkillForm.name.$error.required">&#10006; Skill name is required.</span>
+                                    <span class="tooltiptext" ng-show="SkillForm.name.$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                                </span>
+                                <input name="name" class="form-control" placeholder="required" ng-model="new_skill.name" ng-maxlength="254" required>
                             </span>
-                            <span class="ok message" ng-show="SkillForm.name.$dirty && SkillForm.name.$valid">&#10004;</span>
-                        </div>
-                        <input name="name" class="form-control" placeholder="required" ng-model="new_skill.name" ng-maxlength="254" required>
-                    </div>
-                
-                    <div class="form-group">
-                        <div class="text-group">
-                            <label for="level">Level:</label>
-                            <span class="error message" ng-show="(SkillForm.level.$touched || SkillForm.level.$dirty) && SkillForm.level.$invalid">
-                                <span ng-show="SkillForm.level.$error.required">&#10006; Level is required.</span>
-                                <span ng-show="SkillForm.level.$error.min">&#10006; Minimum level is 1.</span>
-                                <span ng-show="SkillForm.level.$error.max">&#10006; Maximum level is 3.</span>
+                            <span class="table-cell">
+                                <div class="text-group">
+                                    <span class="error message" ng-show="(SkillForm.level.$touched || SkillForm.level.$dirty) && SkillForm.level.$invalid">
+                                        <span class="tooltiptext" ng-show="SkillForm.level.$error.required">&#10006; Level is required.</span>
+                                        <span class="tooltiptext" ng-show="SkillForm.level.$error.min">&#10006; Minimum level is 1.</span>
+                                        <span class="tooltiptext" ng-show="SkillForm.level.$error.max">&#10006; Maximum level is 3.</span>
+                                    </span>
+                                </div>
+                                <input name="level" type="number" class="form-control" placeholder="1-3 (required)" ng-model="new_skill.level" ng-min="1" ng-max="3" required>
                             </span>
-                            <span class="ok message" ng-show="SkillForm.level.$dirty && SkillForm.level.$valid">&#10004;</span>
-                        </div>
-                        <input name="level" type="number" class="form-control" placeholder="1-3 (required)" ng-model="new_skill.level" ng-min="1" ng-max="3" required>
-                    </div>
-
-                    <button class="btn" ng-disabled="SkillForm.$invalid" ng-click="addSkill(new_skill, contact)">Add new skill</button>
-                </form>
+                            <span class="table-cell icon"></span>
+                            <span class="table-cell icon">
+                                <button class="btn icon" ng-disabled="SkillForm.$invalid"  ng-click="addSkill(new_skill)">
+                                    <img data-ng-src="[[ icon_add_user ]]" title="Add new skill" alt="Add contact" width="32px" height="32px">
+                                </button>
+                            </span>
+                        </span> 
+                        <span class="table-row" ng-repeat="skill in contact.skills | orderBy:['id']">
+                            <span class="table-cell input-cell">
+                                <span class="error message" ng-show="(SkillForm.name[[ skill.id ]].$touched || SkillForm.name[[ skill.id ]].$dirty) && SkillForm.name[[ skill.id ]].$invalid">
+                                    <span class="tooltiptext" ng-show="SkillForm.name[[ skill.id ]].$error.required">&#10006; Skill name is required.</span>
+                                    <span class="tooltiptext" ng-show="SkillForm.name[[ skill.id ]].$error.maxlength">&#10006; Maximum 254 characters allowed.</span>
+                                </span>
+                                <input name="name[[ skill.id ]]" class="form-control" placeholder="required" ng-model="skill.name" ng-maxlength="254" required>
+                            </span>
+                            <span class="table-cell input-cell" style="width: 25%">
+                                <span class="error message" ng-show="(SkillForm.level[[ skill.id ]].$touched || SkillForm.level[[ skill.id ]].$dirty) && SkillForm.level[[ skill.id ]].$invalid">
+                                    <span class="tooltiptext" ng-show="SkillForm.level[[ skill.id ]].$error.required">&#10006; Level is required.</span>
+                                    <span class="tooltiptext" ng-show="SkillForm.level[[ skill.id ]].$error.min">&#10006; Minimum level is 1.</span>
+                                    <span class="tooltiptext" ng-show="SkillForm.level[[ skill.id ]].$error.max">&#10006; Maximum level is 3.</span>
+                                </span>
+                                <input name="level[[ skill.id ]]" type="number" class="form-control" placeholder="1-3 (required)" ng-model="skill.level" ng-min="1" ng-max="3" required>
+                            </span>
+                            <span class="table-cell icon">
+                                <button class="btn icon" ng-disabled="SkillForm.name[[ skill.id ]].$invalid  || SkillForm.level[[ skill.id ]].$invalid || !(SkillForm.name[[ skill.id ]].$dirty  || SkillForm.level[[ skill.id ]].$dirty)"  ng-click="updateSkill(skill)">
+                                    <img data-ng-src="[[ icon_edit ]]" ng-click="updateSkill(skill)" title="Update skill" alt="Update skill" width="32px" height="32px">
+                                </button>
+                            </span>
+                            <span class="table-cell icon">
+                                <img data-ng-src="[[ icon_trash ]]" ng-click="removeSkill()" title="Remove skill" alt="Remove skill" width="32px" height="32px">
+                            </span>
+                        </span>
+                    </span>
+                </span>
             </div>
-        </div>
+        </form>
 
     </section>
 
