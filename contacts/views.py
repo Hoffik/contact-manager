@@ -98,10 +98,9 @@ class SkillViewSet(viewsets.ModelViewSet):
     serializer_class = SkillSerializer
 
     # def perform_create(self, serializer):
-    #     raise Exception(self.args)
-    #     try:
-    #         existing_skill = Skill.objects.get(name="test")
-    #     except Content.DoesNotExist:
-    #         thepost = None
-    #     """Force contact owner to current user on save"""
-    #     # serializer.save(owner=self.request.user)
+        # contacts = self.request.POST.getlist('contacts')
+        # raise Exception(contacts)
+        # raise Exception(self.request.data.getlist('contacts'))
+        # data = json.loads(self.request.POST['contacts'])
+        # raise Exception(data)
+        # pass

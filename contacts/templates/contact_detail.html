@@ -112,7 +112,7 @@
                                 </span>
                                 <input name="name" class="form-control" placeholder="required" ng-model="new_skill.name" ng-maxlength="254" required>
                             </span>
-                            <span class="table-cell">
+                            <span class="table-cell input-cell">
                                 <div class="text-group">
                                     <span class="error message" ng-show="(SkillForm.level.$touched || SkillForm.level.$dirty) && SkillForm.level.$invalid">
                                         <span class="tooltiptext" ng-show="SkillForm.level.$error.required">&#10006; Level is required.</span>
@@ -124,7 +124,7 @@
                             </span>
                             <span class="table-cell icon"></span>
                             <span class="table-cell icon">
-                                <button class="btn icon" ng-disabled="SkillForm.$invalid"  ng-click="addSkill(new_skill)">
+                                <button class="btn icon" ng-disabled="SkillForm.$invalid"  ng-click="addSkill(new_skill, contact)">
                                     <img data-ng-src="[[ icon_add_user ]]" title="Add new skill" alt="Add contact" width="32px" height="32px">
                                 </button>
                             </span>
@@ -146,12 +146,14 @@
                                 <input name="level[[ skill.id ]]" type="number" class="form-control" placeholder="1-3 (required)" ng-model="skill.level" ng-min="1" ng-max="3" required>
                             </span>
                             <span class="table-cell icon">
-                                <button class="btn icon" ng-disabled="SkillForm.name[[ skill.id ]].$invalid  || SkillForm.level[[ skill.id ]].$invalid || !(SkillForm.name[[ skill.id ]].$dirty  || SkillForm.level[[ skill.id ]].$dirty)"  ng-click="updateSkill(skill)">
-                                    <img data-ng-src="[[ icon_edit ]]" ng-click="updateSkill(skill)" title="Update skill" alt="Update skill" width="32px" height="32px">
+                                <button class="btn icon" ng-disabled="SkillForm.name[[ skill.id ]].$invalid  || SkillForm.level[[ skill.id ]].$invalid || !(SkillForm.name[[ skill.id ]].$dirty  || SkillForm.level[[ skill.id ]].$dirty)" ng-click="updateSkill(skill, contact)">
+                                    <img data-ng-src="[[ icon_edit ]]" title="Update skill" alt="Update skill" width="32px" height="32px">
                                 </button>
                             </span>
                             <span class="table-cell icon">
-                                <img data-ng-src="[[ icon_trash ]]" ng-click="removeSkill()" title="Remove skill" alt="Remove skill" width="32px" height="32px">
+                                <button class="btn icon" ng-click="updateSkill(skill, contact, remove=true)">
+                                    <img data-ng-src="[[ icon_trash ]]" title="Remove skill" alt="Remove skill" width="32px" height="32px">
+                                </button>
                             </span>
                         </span>
                     </span>

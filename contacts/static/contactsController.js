@@ -15,53 +15,58 @@ app.config(function($interpolateProvider) {
 app.controller('ContactListCtrl', function($scope, $filter, $log, $http) { 
 
     $scope.loadContacts = function() {
-        $http.get('/api/contacts/').then(function(response) {
-            $scope.contacts = response.data;
-        });
-    };
-
-    $scope.loadContacts();
-});
-
-app.controller('ContactAddCtrl', function($scope, $filter, $log, $http) { 
-
-    $scope.loadContacts = function() {
-        $http.get('/api/contacts/').then(function(response) {
+        $http.get('/api/contacts/').catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function(response) {
             $scope.contacts = response.data;
         });
     };
 
     $scope.loadContacts();
 
-    $scope.addContact = function() {
-        console.log("start");
+    $scope.createContact = function(new_contact) {
         var data = $.param({
-            firstname: $scope.firstname,
-            lastname: $scope.lastname,
-            address: $scope.address,
-            email: $scope.email,
-            phone: $scope.phone,
+            firstname: new_contact.firstname,
+            lastname: new_contact.lastname,
+            address: new_contact.address,
+            email: new_contact.email,
+            phone: new_contact.phone,
         });
         var config = {
             headers : {
                 'Content-Type': 'application/x-www-form-urlencoded;'
             }
         }
-        console.log("before post");
-        return $http.post('/api/contacts/', data, config).then(function() {
+        return $http.post('/api/contacts/', data, config).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function() {
             $scope.loadContacts();
-            console.log("then");
+            $scope.new_contact = undefined;            
+            $scope.ContactForm.$setPristine();
+            $scope.ContactForm.$setUntouched();
+        });
+    };
+
+    $scope.deleteContact = function(contact) {
+        return $http.delete('/api/contacts/' + contact.id + '/').catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function() {
+            $scope.loadContacts();
         });
     };
 });
 
-app.controller('ContactDetailCtrl', function($scope, $filter, $log, $http){ 
+
+app.controller('ContactDetailCtrl', function($scope, $filter, $log, $http, $httpParamSerializer){ 
     $scope.getContact = function(contact_id) {
-        $http.get('/api/contacts/' + contact_id + '/').then(function(response) {
-            $scope.contact = response.data;
-        }).catch(function(error) {
+        $http.get('/api/contacts/' + contact_id + '/').catch(function(error) {
             console.log(error.data.detail, error);
             $scope.error_message = error.data.detail;
+        }).then(function(response) {
+            $scope.contact = response.data;
         });
     };
 
@@ -84,15 +89,15 @@ app.controller('ContactDetailCtrl', function($scope, $filter, $log, $http){
         }).then(function() {
             $scope.getContact($scope.contact.id);
             $scope.ContactForm.$setPristine();
+            $scope.ContactForm.$setUntouched();
         });
     };
 
-    $scope.addSkill = function(skill) {
-        console.log("id: " + $scope.contact.id);
-        var data = $.param({
-            name: skill.name,
-            level: skill.level,
-            contacts: [ $scope.contact.id ],
+    $scope.addSkill = function(new_skill, contact) {
+        var data = $httpParamSerializer({
+            name: new_skill.name,
+            level: new_skill.level,
+            contacts: [ contact.id ],
         });
         var config = {
             headers : {
@@ -103,36 +108,55 @@ app.controller('ContactDetailCtrl', function($scope, $filter, $log, $http){
             console.log(error.data.detail, error);
             $scope.error_message = error.data.detail;
         }).then(function() {
-            console.log($scope.new_skill);
-            // $scope.updateSkill($scope.new_skill);
-        }).then(function(skill) {
+            $scope.getContact(contact.id);
             $scope.new_skill = undefined;
-            $scope.getContact($scope.contact.id);
             $scope.SkillForm.$setPristine();
+            $scope.SkillForm.$setUntouched();
         });
     };
 
-    $scope.updateSkill = function(skill) {
-        console.log(skill);
-        // var data = $.param({
-        //     firstname: contact.firstname,
-        //     lastname: contact.lastname,
-        //     address: contact.address,
-        //     email: contact.email,
-        //     phone: contact.phone,
-        // });
-        // var config = {
-        //     headers : {
-        //         'Content-Type': 'application/x-www-form-urlencoded;'
-        //     }
-        // }
-        // return $http.put('/api/contacts/' + contact.id + '/', data, config).catch(function(error) {
-        //     console.log(error.data.detail, error);
-        //     $scope.error_message = error.data.detail;
-        // }).then(function() {
-        //     $scope.getContact($scope.contact.id);
-        //     $scope.ContactForm.$setPristine();
-        // });
+    /**
+     * Updates or removes a skill from contact.
+     *
+     * Updates skill name and/or skill level for a specified contact.
+     * In case remove parameter is set to true removes skill from the contact. 
+     * 
+     * @param   {Object}    skill           Skill to be updated.
+     * @param   {number}    skill.id        Skill identification. Private key.
+     * @param   {string}    skill.name      Skill name.
+     * @param   {number}    skill.level     Skill level.
+     * @param   {Object}    contact         Conact to have the skill updated.
+     * @param   {number}    contact.id      Contact identification. Private key.
+     * @param   {type}      [remove=false]  Switches standart update behavior. If set to true removes skill from contact.
+     * 
+     * @return  {Object}                    Updated skill.
+     */
+    $scope.updateSkill = function(skill, contact, remove=false) {
+        var data;
+        if (remove) {
+            data = $httpParamSerializer({
+                contacts: [ contact.id ],
+            });
+        } else { 
+            data = $httpParamSerializer({
+                name: skill.name,
+                level: skill.level,
+                contacts: [ contact.id ],
+            });
+        }
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;'
+            }
+        }
+        return $http.put('/api/skills/' + skill.id + '/', data, config).catch(function(error) {
+            console.log(error.data.detail, error);
+            $scope.error_message = error.data.detail;
+        }).then(function() {
+            $scope.getContact(contact.id);
+            $scope.SkillForm.$setPristine();
+            $scope.SkillForm.$setUntouched();
+        });
     };
 });
 

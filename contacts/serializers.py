@@ -16,6 +16,8 @@ class SkillSerializer(serializers.ModelSerializer):
             level=validated_data.get('level', None),
             defaults={},
         )
+        contacts = validated_data.get('contacts', None)
+        # raise Exception(contacts)
         for new_contact in validated_data.get('contacts', None):
             skill.contacts.add(new_contact)
         return skill
@@ -34,8 +36,8 @@ class SkillSerializer(serializers.ModelSerializer):
         else:
             # Each contact from the provided list of contacts has the skill (name and/or level) updated (new skill is created if necessary).
             skill, created = Skill.objects.get_or_create(
-                name=new_name,
-                level=new_level,
+                name=new_name or instance.name, #If new_value is None, keep original value
+                level=new_level or instance.name,
                 defaults={},
             )
             for contact in contacts:
