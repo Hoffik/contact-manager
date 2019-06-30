@@ -1,17 +1,4 @@
-// $medium-window-size: 800px;
-// $small-window-size: 500px;
-
-
-
-// All
-// main {
-//     padding-left: 0px;
-//     margin: 0% 10%;
-
-//     @media (max-width: $small-window-size) {
-//         margin: 0% 5%;
-//     }
-// }
+//All
 nav {
     position:absolute;
     right:5px;
@@ -20,26 +7,6 @@ nav {
 section {
     margin-bottom: 15px;
 }
-// .small {
-//     @media (min-width: $small-window-size + 1) {
-//         display: none;
-//     }
-// }
-// .small-medium {
-//     @media (min-width: $medium-window-size + 1) {
-//         display: none;
-//     }
-// }
-// .medium-big {
-//     @media (max-width: $small-window-size) {
-//         display: none;
-//     }
-// }
-// .big {
-//     @media (max-width: $medium-window-size) {
-//         display: none;
-//     }
-// }
 
 // Form
 input {
@@ -78,7 +45,7 @@ div.text-group {
 span.table {
     width: 100%;
     max-width: 100%;
-    padding-bottom: 40px;
+    margin-bottom: 60px;
     border-collapse: collapse;
     border-spacing: 0;
     -webkit-box-sizing: border-box;

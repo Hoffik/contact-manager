@@ -10,15 +10,16 @@ app_name = 'contacts'
 
 # Apps views
 apps_urls = [
+    path('', views.empty_view, name='empty'),
     path('contacts/', ContactListView.as_view(), name='contact-list-view'),
     path('contacts/<int:contact_id>/', ContactDetailView.as_view(), name='contact-detail-view'),
 ]
 
 # Authentication views
 auth_urls = [
-    path('signup/', views.signup, name='signup'), #views.SignUp.as_view()
+    path('signup/', views.signup, name='signup'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='contacts:login'), name='logout'),
     path('profile/', views.profile, name='profile'),
 ]
 

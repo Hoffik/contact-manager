@@ -17,9 +17,10 @@ class SkillSerializer(serializers.ModelSerializer):
             defaults={},
         )
         contacts = validated_data.get('contacts', None)
-        # raise Exception(contacts)
+        current_user = self.context['request'].user
         for new_contact in validated_data.get('contacts', None):
-            skill.contacts.add(new_contact)
+            if new_contact.owner == current_user:
+                skill.contacts.add(new_contact)
         return skill
 
     def update(self, instance, validated_data):
@@ -29,10 +30,12 @@ class SkillSerializer(serializers.ModelSerializer):
             return instance
         new_name = validated_data.get('name', None)
         new_level = validated_data.get('level', None)
+        current_user = self.context['request'].user
         if new_name is None and new_level is None:
             # In case basic parameters name and level are not provided each contact from the list has the skill removed.
             for contact in contacts:
-                instance.contacts.remove(contact)
+                if contact.owner == current_user:
+                    instance.contacts.remove(contact)
         else:
             # Each contact from the provided list of contacts has the skill (name and/or level) updated (new skill is created if necessary).
             skill, created = Skill.objects.get_or_create(
@@ -41,8 +44,9 @@ class SkillSerializer(serializers.ModelSerializer):
                 defaults={},
             )
             for contact in contacts:
-                instance.contacts.remove(contact)                
-                skill.contacts.add(contact)
+                if contact.owner == current_user:
+                    instance.contacts.remove(contact)                
+                    skill.contacts.add(contact)
         if len(instance.contacts.all())==0:
             # Original skill is removed if it has no contact left.
             instance.delete()
@@ -54,19 +58,7 @@ class ContactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contact
-        fields = ('id', 'firstname', 'lastname', 'fullname', 'address', 'email', 'phone', 'skills')
-
-    # def create(self, validated_data):
-    #     skills_data = validated_data.pop('skills')
-    #     contact = Contact.objects.create(**validated_data)
-    #     for skill_data in skills_data:
-    #         skill, created = Skill.objects.get_or_create(
-    #             name=skill_data["name"],
-    #             level=skill_data["level"],
-    #             defaults={},
-    #         )
-    #         contact.skills.add(skill)
-    #     return contact
+        fields = ('id', 'owner', 'firstname', 'lastname', 'fullname', 'address', 'email', 'phone', 'skills')
 
     def get_fullname(self, obj):
         return obj.firstname + " " + obj.lastname

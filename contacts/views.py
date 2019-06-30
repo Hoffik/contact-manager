@@ -3,17 +3,14 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from rest_framework import generics
 
 from .models import Contact, Skill
 from .serializers import ContactSerializer, SkillSerializer
+from .permissions import ContactPermission, SkillPermission
 from .forms import SignUpForm
 
 # Application views
-import json
-from django.http import JsonResponse
-from django.urls import reverse_lazy
-from django.views.generic import FormView
-
 class ContactListView(LoginRequiredMixin, TemplateView):
     template_name = "contact_list.html"
 
@@ -38,8 +35,11 @@ def signup(request):
 def profile(request):
     return HttpResponse("Your username is %s." % request.user.username)
 
-# Rest API views
-class ContactViewSet(viewsets.ModelViewSet):
+def empty_view(request):
+    return redirect('contacts:contact-list-view')
+
+# # Rest API views
+class ContactViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows to view or edit contacts.
 
@@ -63,12 +63,13 @@ class ContactViewSet(viewsets.ModelViewSet):
     """
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
+    permission_classes = (ContactPermission, )
 
     def perform_create(self, serializer):
-        """Force contact owner to current user on save"""
+        """Force contact owner to current user on save."""
         serializer.save(owner=self.request.user)
 
-class SkillViewSet(viewsets.ModelViewSet):
+class SkillViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     """
     API endpoint that allows to view or edit skills.
 
@@ -96,11 +97,4 @@ class SkillViewSet(viewsets.ModelViewSet):
     """
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
-
-    # def perform_create(self, serializer):
-        # contacts = self.request.POST.getlist('contacts')
-        # raise Exception(contacts)
-        # raise Exception(self.request.data.getlist('contacts'))
-        # data = json.loads(self.request.POST['contacts'])
-        # raise Exception(data)
-        # pass
+    permission_classes = (SkillPermission, )

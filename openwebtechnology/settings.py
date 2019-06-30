@@ -95,6 +95,15 @@ AUTH_USER_MODEL = 'contacts.User'
 LOGIN_REDIRECT_URL = 'contacts:contact-list-view'
 
 
+# Global permission policy
+# https://www.django-rest-framework.org/api-guide/permissions/#setting-the-permission-policy
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
+
+
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 

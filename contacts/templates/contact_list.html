@@ -75,7 +75,7 @@
                             </button>
                         </span>
                     </span> 
-                    <span class="table-row" ng-repeat="contact in contacts | orderBy:['id']">
+                    <span class="table-row" ng-repeat="contact in contacts | filter : {'owner' : '{{user.id}}'}| orderBy:['id']">
                         <span class="table-cell">[[ contact.firstname ]]</span>
                         <span class="table-cell">[[ contact.lastname ]]</span>
                         <span class="table-cell">[[ contact.address ]]</span>
