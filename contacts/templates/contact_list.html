@@ -31,7 +31,7 @@
                             </div>
                             <input name="firstname" class="form-control" placeholder="required" ng-model="new_contact.firstname" ng-maxlength="254" required>
                         </span>
-                        <span class="table-cell">
+                        <span class="table-cell input-cell">
                             <div class="text-group">
                                 <span class="error message" ng-show="(ContactForm.lastname.$touched || ContactForm.lastname.$dirty) && ContactForm.lastname.$invalid">
                                     <span class="tooltiptext" ng-show="ContactForm.lastname.$error.required">&#10006; Last name is required.</span>
@@ -40,7 +40,7 @@
                             </div>
                             <input name="lastname" class="form-control" placeholder="required" ng-model="new_contact.lastname" ng-maxlength="254" required>
                         </span>
-                        <span class="table-cell">
+                        <span class="table-cell input-cell">
                             <div class="text-group">
                                 <span class="error message" ng-show="(ContactForm.address.$touched || ContactForm.address.$dirty) && ContactForm.address.$invalid">
                                     <span class="tooltiptext" ng-show="ContactForm.address.$error.required">&#10006; Address is required.</span>
@@ -49,7 +49,7 @@
                             </div>
                             <input name="address" id="address" class="form-control" placeholder="required" ng-model="new_contact.address" ng-maxlength="254" required>
                         </span>
-                        <span class="table-cell">
+                        <span class="table-cell input-cell">
                             <div class="text-group">
                                 <span class="error message" ng-show="(ContactForm.email.$touched || ContactForm.email.$dirty) && ContactForm.email.$invalid">
                                     <span class="tooltiptext" ng-show="ContactForm.email.$error.required">&#10006; Email is required.</span>
@@ -58,7 +58,7 @@
                             </div>
                             <input name="email" type="email" class="form-control" placeholder="required" ng-model="new_contact.email" required>
                         </span>
-                        <span class="table-cell">
+                        <span class="table-cell input-cell">
                             <div class="text-group">
                                 <span class="error message" ng-show="(ContactForm.phone.$touched || ContactForm.phone.$dirty) && ContactForm.phone.$invalid">
                                     <span class="tooltiptext" ng-show="ContactForm.phone.$error.required">&#10006; Phone number is required.</span>
