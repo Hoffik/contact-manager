@@ -64,9 +64,10 @@
                                     <span class="tooltiptext" ng-show="ContactForm.phone.$error.required">&#10006; Phone number is required.</span>
                                     <span class="tooltiptext" ng-show="ContactForm.phone.$error.pattern">&#10006; Phone must be in the format: '+99999999'.</span>
                                     <span class="tooltiptext" ng-show="ContactForm.phone.$error.minlength && ContactForm.phone.$touched">&#10006; Minimum 8 digits required.</span>
+                                    <span class="tooltiptext" ng-show="ContactForm.phone.$error.maxlength && ContactForm.phone.$touched">&#10006; Maximum 16 digits allowed.</span>
                                 </span>
                             </div>
-                            <input name="phone" class="form-control" placeholder="+99999999 (required)" ng-model="new_contact.phone" ng-minlength="9" ng-pattern="/^\+\d{0,15}$/" required>
+                            <input name="phone" class="form-control" placeholder="+99999999 (required)" ng-model="new_contact.phone" ng-minlength="9" ng-maxlength="16" ng-pattern="/^\+\d+$/" required>
                         </span>
                         <span class="table-cell icon"></span>
                         <span class="table-cell icon">

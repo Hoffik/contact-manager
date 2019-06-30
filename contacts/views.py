@@ -2,6 +2,7 @@ from rest_framework import viewsets
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from rest_framework import generics
 
@@ -11,10 +12,10 @@ from .permissions import ContactPermission, SkillPermission
 from .forms import SignUpForm
 
 # Application views
-class ContactListView(LoginRequiredMixin, TemplateView):
+class ContactListView(TemplateView):
     template_name = "contact_list.html"
 
-class ContactDetailView(LoginRequiredMixin, TemplateView):
+class ContactDetailView(TemplateView):
     template_name = "contact_detail.html"
 
 # Authentication views
