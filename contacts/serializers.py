@@ -53,6 +53,7 @@ class SkillSerializer(serializers.ModelSerializer):
         return instance
 
 class ContactSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.id')
     fullname = serializers.SerializerMethodField()
     skills = SkillSerializer(many=True, read_only=True)
 

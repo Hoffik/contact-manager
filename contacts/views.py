@@ -45,21 +45,27 @@ class ContactViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
 
     retrieve:
         Return a contact instance.
+        All authenticated users can read any contact.
 
     list:
         Return all contacts, ordered by most recently joined.
+        All authenticated users can read all contacts.
 
     create:
         Create a new contact.
+        All authenticated users can create new contacts.
 
     delete:
         Remove an existing contact.
+        User must have owner or administrator rights to delete a contact.
 
     partial_update:
         Update one or more fields on an existing contact.
+        User must have owner or administrator rights to update a contact.
 
     update:
         Update a contact.
+        User must have owner or administrator rights to update a contact.
     """
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
@@ -75,25 +81,33 @@ class SkillViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
 
     retrieve:
         Return a skill instance.
+        All authenticated users can read any skill.
 
     list:
         Return all skills, ordered by most recently joined.
+        All authenticated users can read all skills.
 
     create:
         Create a new skill.
+        Creates a new skill for each contact in the contact list.
+        User must be owner of a contact or administrator to create a skill for the contact.
 
     delete:
         Remove an existing skill.
+        Removes skill reference from each contact and deletes the skill.
+        User must have administrator rights to delete a skill.
 
     partial_update:
         Update one or more fields on an existing skill.
+        Updates the skill name and/or level for each contact in the contact list.
+        In case name and level parameters are not provided each contact from the list has the skill removed.
+        User must be owner of a contact or administrator to update or remove a skill from the contact.
 
     update:
         Update a skill.
-        Each contact from the provided list of contacts has the skill (name and/or level) updated (new skill is created if necessary).
-        In case basic parameters name and level are not provided each contact from the list has the skill removed.
-        In case no contact is provided nothing happens.
-        Original skill is removed if it has no contact left.
+        Updates the skill name and level for each contact in the contact list.
+        In case name and level parameters are not provided each contact from the list has the skill removed.
+        User must be owner of a contact or administrator to update or remove a skill from the contact.
     """
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer

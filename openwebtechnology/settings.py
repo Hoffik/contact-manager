@@ -103,6 +103,14 @@ REST_FRAMEWORK = {
     )
 }
 
+# REST_FRAMEWORK = {
+#     # Parser classes priority-wise for Swagger
+#     'DEFAULT_PARSER_CLASSES': [
+#         'rest_framework.parsers.FormParser',
+#         'rest_framework.parsers.MultiPartParser',
+#         'rest_framework.parsers.JSONParser',
+#     ],
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
