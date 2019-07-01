@@ -11,16 +11,28 @@ class SkillSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # If skill.name-level combination already exists, add new contacts only
+        # new_name = validated_data.get('name', None),
         skill, created = Skill.objects.get_or_create(
             name=validated_data.get('name', None),
             level=validated_data.get('level', None),
             defaults={},
         )
+        # raise Exception(skill.name)
         contacts = validated_data.get('contacts', None)
         current_user = self.context['request'].user
         for new_contact in validated_data.get('contacts', None):
             if new_contact.owner == current_user:
+                try:
+                    original_skill = Skill.objects.get(name=skill.name, contacts=new_contact)
+                    original_skill.contacts.remove(new_contact) # pokud má skill se stejným názvem, tak ten původní od něj smazat
+                    if len(original_skill.contacts.all())==0:
+                        original_skill.delete()
+                except:
+                    raise Exception("nenalezeno")
                 skill.contacts.add(new_contact)
+        # smazat nový, pokud v něm nejsou žádné kontakty (uživatel k žádnému neměl práva)
+        if len(skill.contacts.all())==0:
+            skill.delete()
         return skill
 
     def update(self, instance, validated_data):
@@ -45,15 +57,28 @@ class SkillSerializer(serializers.ModelSerializer):
             )
             for contact in contacts:
                 if contact.owner == current_user:
+                    try:
+                        original_skill = Skill.objects.get(name=skill.name, contacts=contact)
+                        original_skill.contacts.remove(contact) # pokud má skill se stejným názvem, tak ten původní od něj smazat
+                        if len(original_skill.contacts.all())==0:
+                            original_skill.delete()
+                    except:
+                        pass
                     instance.contacts.remove(contact)                
                     skill.contacts.add(contact)
+            # smazat nový, pokud v něm nejsou žádné kontakty (uživatel k žádnému neměl práva)
+            if len(skill.contacts.all())==0:
+                skill.delete()
         if len(instance.contacts.all())==0:
             # Original skill is removed if it has no contact left.
             instance.delete()
         return instance
 
+
 class ContactSerializer(serializers.ModelSerializer):
+    """Owner documentation"""
     owner = serializers.ReadOnlyField(source='owner.id')
+    """Fullname documentation"""
     fullname = serializers.SerializerMethodField()
     skills = SkillSerializer(many=True, read_only=True)
 
