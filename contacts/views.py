@@ -12,10 +12,10 @@ from .permissions import ContactPermission, SkillPermission
 from .forms import SignUpForm
 
 # Application views
-class ContactListView(TemplateView):
+class ContactListView(LoginRequiredMixin,TemplateView):
     template_name = "contact_list.html"
 
-class ContactDetailView(TemplateView):
+class ContactDetailView(LoginRequiredMixin, TemplateView):
     template_name = "contact_detail.html"
 
 # Authentication views
