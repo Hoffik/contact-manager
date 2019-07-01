@@ -28,7 +28,7 @@ class SkillSerializer(serializers.ModelSerializer):
                     if len(original_skill.contacts.all())==0:
                         original_skill.delete()
                 except:
-                    raise Exception("nenalezeno")
+                    pass
                 skill.contacts.add(new_contact)
         # smazat nový, pokud v něm nejsou žádné kontakty (uživatel k žádnému neměl práva)
         if len(skill.contacts.all())==0:
